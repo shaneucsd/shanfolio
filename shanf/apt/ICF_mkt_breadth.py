@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import sys
-sys.path.append('/Users/apple/Documents/Github/SHANFOLIO')
+sys.path.append('D:/Github/SHANFOLIO')
 from shanf.apt.Factor import Factor,IndexComp_Factor
 
 
