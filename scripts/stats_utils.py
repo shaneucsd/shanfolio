@@ -7,13 +7,18 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np 
 
-def plot_distplot(series):
-    sns.distplot(series)
-    plt.show()
-    print('mean: ',series.mean())
-    print('std: ',series.std())
-    print('skew: ',series.skew())
-    print('kurt: ',series.kurt())
+
+"""
+
+This file contains some functions that are used to calculate the statistics of the factors and the performance of the strategies.
+
+Including:
+@ ic_series: calculate the ic series of the factor
+@ ic_stats: calculate the ic stats of the factor
+@ performance_stats: calculate the performance stats of the strategy
+
+
+"""
 
 def ic_series(factor, returns):
     # factor : t * n
@@ -45,7 +50,14 @@ def ic_stats(factor, ic):
     
 
 # 策略
-def performance_stats(returns,market_index_return,period='daily'):
+def performance_stats(returns,market_index_return,period='daily',start=None,end=None):
+    if start :
+        returns = returns.loc[start:]
+        market_index_return = market_index_return.loc[start:]
+    if end : 
+        returns = returns.loc[:end]
+        market_index_return = market_index_return.loc[:end]
+        
     # intersection index of returns and market_index_return
     returns = returns.loc[returns.index.intersection(market_index_return.index)]
     market_index_return = market_index_return.loc[market_index_return.index.intersection(returns.index)]
@@ -159,3 +171,11 @@ def cokurt(df, bias=False, fisher=True, variant='middle'):
         kurt += 3
 
     return kurt
+
+def plot_distplot(series):
+    sns.distplot(series)
+    plt.show()
+    print('mean: ',series.mean())
+    print('std: ',series.std())
+    print('skew: ',series.skew())
+    print('kurt: ',series.kurt())
