@@ -152,8 +152,6 @@ class DtSource():
             df['symbol'] = df['symbol'].apply(lambda x: convert_symbol(x))
         return df    
 
-
-
     def _pivot_and_save(self, df):
 
         def _pivot_col(df,col):
@@ -416,3 +414,7 @@ def get_index_info_comp_df_from_local(info_path,comp_path):
     index_comp_df['selectesymbol'] = index_comp_df['selectesymbol'].apply(lambda x: convert_symbol(x))
 
     return index_info_df,index_comp_df
+
+
+if __name__ == '__main__':
+    

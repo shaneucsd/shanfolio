@@ -1,5 +1,9 @@
 .DS_Store
 *.png
+*.xlsx
 *.csv
+*.xml
+*.pkl
 report/**
 config.ini
+*.db

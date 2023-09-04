@@ -39,6 +39,7 @@ class DtLoader():
         
     def _read_file(self, path, name):        
         df = pd.read_pickle(os.path.join(path, name))
+        df.index = pd.to_datetime(df.index)
         return df
 
     def _map_path(self,path):
@@ -53,46 +54,52 @@ class DtLoader():
             else:
                 pass
     
-    def read_field_df(self,field):
-        # Read file of the field
+    def get_field_df(self,field):
+        def clean_field_df(field_df):
+            if self.params['tradeassets'] is not None:
+                field_df = field_df.reindex(columns=self.params['tradeassets'])
+                
+            if self.params['tradedays'] is not None:
+                _idx = field_df.index.union(self.params['tradedays'])
+                field_df = field_df.reindex(index=_idx).ffill()
+                field_df = field_df.loc[self.params['tradedays'], :]
+                
+            field_df = field_df.loc[self.params['start']:self.params['end'], :]
+            return field_df
+        
         path, file_name = self.pathmap[field]
         field_df = self._read_file(path, file_name)
+        field_df = clean_field_df(field_df)
+
         return field_df
     
     def validate_field(self,field):
         try:
-            name = [ name for name in self.pathmap.keys() if name.startswith(field)]
+            name = [ name for name in self.pathmap.keys() if name==field]
             if len(name) == 1:
                 return name[0]
-            if len(name) > 1:
-                msg = f'{field} is not unique, follows by {name}'
-                raise ValueError
-            else:
-                msg = f'{field} not in the factor list'
-                raise ValueError
         except:
-            raise ValueError(msg)    
-
-    def get_field(self,field):
-        field_df = self.__dict__[field]
-        
-        if self.params['tradeassets'] is not None:
-            field_df = field_df.loc[:, self.params['tradeassets']]
-        
-        field_df = field_df.loc[self.params['start']:self.params['end'], :]
-            
-        return field_df
+            msg = f'{field} not in the factor list'
+            raise ValueError(msg)
 
     def cached_field(field_func):
         def wrapper(self, field):
             if field not in self.__dict__.keys():
                 self.validate_field(field)
-                field_df = self.read_field_df(field)
+                field_df = self.get_field_df(field)
                 self.__dict__[field] = field_df
             return field_func(self, field)
         return wrapper
     
     @cached_field
     def __getattr__(self, field):
-        return self.get_field(field)
+        return self.get_field_df(field)
     
+    def reload(self):
+        to_pop = []
+        for field in self.__dict__.keys():
+            if field in self.pathmap.keys():
+                to_pop.append(field)
+        for field in to_pop:
+            self.__dict__.pop(field)
+            
