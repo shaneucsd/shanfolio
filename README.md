@@ -30,4 +30,5 @@
     - demo_factor.py 是主要的因子构成代码文件
     - label.py 生成label
     - funcs.py, db.py是用于因子计算函数，数据读取勒的定义
-    - bt.ipynb 因子回测、可视化
+    - multi_factor.py 因子合成、feature df生成
+    - bt.ipynb 最终因子回测、可视化
