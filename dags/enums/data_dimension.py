@@ -1,0 +1,13 @@
+from enum import Enum
+
+
+class DataDimension(Enum):
+    STOCK_SK_MARKET = 1
+    STOCK_SK_MONEYFLOW = 2
+    STOCK_VALUATION = 3
+    STOCK_SHHK = 4
+    FINANCIALS_BALANCE = 5
+    FINANCIALS_INCOME = 6
+    FINANCIALS_CASH_FLOW = 7
+    INDEX_SK_MARKET = 8
+    STOCK_FORECAST = 9
