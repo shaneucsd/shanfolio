@@ -3,7 +3,8 @@
 
 ## Modules
 
-- dags
+- **dags**
+
   - **postprocess**
     - **datakit** 数据落地和清洗结构
       - DtSource.py 数据前处理模块，处理财汇的行情/财务/另类数据，转为矩阵格式，存放历史矩阵数据至数据库。
@@ -22,23 +23,11 @@
   - **enums** 
     - 存储了一部分的enums
 
-  - **Backtest** 回测框架
+  - **backtest** 回测框架
     - analyze_factor.py 单因子回测框架，基于Alphalens
 
-  - **Worker** 核心因子生成
+  - **worker** 核心因子生成
     - demo_factor.py 是主要的因子构成代码文件
     - label.py 生成label
     - funcs.py, db.py是用于因子计算函数，数据读取勒的定义
     - bt.ipynb 因子回测、可视化
-
-  - **Trade** 交易 （开发中 目前都是wind的pms）
-  - **Monitor** 策略监控（开发中 目前都是wind的pms）
-
-TODO: 
-    Quantlib,
-    Learn to Rank algo,
-    NLP,
-    Genetic Algorithm,
-    GAN,
-    FinGPT,
-    FinRL.
