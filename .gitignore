@@ -7,4 +7,5 @@
 report/**
 config.ini
 *.db
-/.vscode
+.vscode/
+.idea/
